@@ -50,13 +50,14 @@ createApp({
           location.reload(); // Recarga la página actual después de eliminar el producto
         });
     },
+
     duplicar(producto){
       const url = this.url + "/" + producto; //estoy en el producto a dupplicar
-      
+      let productos = {}
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          let productos = {
+          productos = {
             nombre: data.nombre,
             precio: data.precio,
             stock: data.stock,
@@ -77,12 +78,13 @@ createApp({
         })
         .catch((err) => {
           console.error(err);
-          alert("Error al Grabar.");
+          
         });
         })
+
         .catch((err) => {
           console.error(err);
-          this.error = true;
+          alert("Error al duplicar.");
         });
       
 
