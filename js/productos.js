@@ -50,6 +50,50 @@ createApp({
           location.reload(); // Recarga la página actual después de eliminar el producto
         });
     },
+    duplicar(producto){
+      const url = this.url + "/" + producto; //estoy en el producto a dupplicar
+      
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.id = data.id;
+          this.nombre = data.nombre;
+          this.imagen = data.imagen;
+          this.stock = data.stock;
+          this.precio = data.precio;
+
+          let productos = {
+            nombre: data.nombre,
+            precio: data.precio,
+            stock: data.stock,
+            imagen: data.imagen,
+          };
+          // Configurar las opciones para la solicitud fetch
+      var options = {
+        body: JSON.stringify(productos), // Convertir el objeto a una cadena JSON
+        method: "POST", // Establecer el método HTTP como POST
+        headers: { "Content-Type": "application/json" },
+        redirect: "follow",
+      };
+
+      // Realizar una solicitud fetch para guardar el producto en el servidor
+      fetch(this.url, options)
+        .then(function () {
+          window.location.href = "./productos.html"; // Redirigir a la página de productos
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Error al Grabar.");
+        });
+        })
+        .catch((err) => {
+          console.error(err);
+          this.error = true;
+        });
+      
+
+    },
     grabar() {
       /* El método grabar se encarga de guardar los datos de un nuevo producto en el servidor. Primero, se crea un objeto producto con los datos ingresados en el formulario. Luego, se configuran las opciones para la solicitud fetch, incluyendo el cuerpo de la solicitud como una cadena JSON, el método HTTP como POST y el encabezado Content-Type como application/json. Después, se realiza la solicitud fetch a la URL especificada utilizando las opciones establecidas. Si la operación se realiza con éxito, se muestra un mensaje de éxito y se redirige al usuario a la página de productos. Si ocurre algún error, se muestra un mensaje de error.
        */
