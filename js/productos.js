@@ -56,13 +56,6 @@ createApp({
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          this.id = data.id;
-          this.nombre = data.nombre;
-          this.imagen = data.imagen;
-          this.stock = data.stock;
-          this.precio = data.precio;
-
           let productos = {
             nombre: data.nombre,
             precio: data.precio,
