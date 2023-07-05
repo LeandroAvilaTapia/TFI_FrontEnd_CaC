@@ -85,8 +85,7 @@ createApp({
         .catch((err) => {
           console.error(err);
           alert("Error al duplicar.");
-        });
-      
+        });    
 
     },
     grabar() {
@@ -119,8 +118,39 @@ createApp({
           alert("Error al Grabar.");
         });
     },
+    
   },
   created() {
-    this.fetchData(this.url);
+    this.fetchData(this.url);    
+    const prueba = this; // Almacenar una referencia a la instancia de Vue
+      
+      document.getElementById("formularioBusqueda").addEventListener("submit", function (event) {
+        // Evitar que el formulario se envíe de forma predeterminada
+        event.preventDefault();
+        
+        // Obtener el valor del campo de búsqueda
+        var textoBuscado = document.getElementsByName("textoBuscado")[0].value;
+        console.log(textoBuscado);
+        
+        if (textoBuscado !== "") {      
+          prueba.cargando = true;      
+          // Realizar una solicitud fetch para enviar los datos del formulario a la ruta Flask
+          fetch("https://leandroavilatapia.pythonanywhere.com/productos/" + textoBuscado)
+            .then((response) => response.json())
+            .then((data) => {
+              // Mostrar los productos que coinciden con el término de búsqueda
+              prueba.productos = data;
+              prueba.cargando = false;
+            })
+            .catch((err) => {
+              console.error(err);
+              prueba.error = true;
+              alert("Error al buscar productos.");
+            });
+        } else {
+          prueba.fetchData(prueba.url);
+        }
+      });
+
   },
 }).mount("#app");

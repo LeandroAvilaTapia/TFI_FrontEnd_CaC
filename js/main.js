@@ -3,9 +3,9 @@ El código se encarga de asignar el contenido HTML al elemento con el id "header
 */
 document.getElementById(
   "header"
-).innerHTML = ` <nav class="navbar navbar-expand-sm navbar-light bg-light">
+).innerHTML = ` <nav class="navbar navbar-expand-sm  bg-light">
 <div class="container">
-  <a class="navbar-brand" href="index.html">Navbar</a>
+  <a class="navbar-brand" href="index.html">Crud Python</a>
   <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -26,8 +26,8 @@ document.getElementById(
               </div>
           </li>
       </ul>
-      <form class="d-flex my-2 my-lg-0">
-          <input class="form-control me-sm-2" type="text" placeholder="Search">
+      <form class="d-flex my-2 my-lg-0" name="busqueda" method="POST" action="" id="formularioBusqueda">
+          <input class="form-control me-sm-2" type="text" placeholder="Search" name="textoBuscado">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
   </div>
