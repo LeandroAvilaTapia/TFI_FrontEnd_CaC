@@ -19,6 +19,43 @@ createApp({
       precio: 0,
     };
   },
+  computed: {
+    cantidadProductos() {
+      return this.productos.length;
+    }
+  },
+  mounted(){
+        
+    const prueba = this; // Almacenar una referencia a la instancia de Vue
+      
+      document.getElementById("formularioBusqueda").addEventListener("submit", function (event) {
+        // Evitar que el formulario se envíe de forma predeterminada
+        event.preventDefault();
+        
+        // Obtener el valor del campo de búsqueda
+        var textoBuscado = document.getElementsByName("textoBuscado")[0].value;
+        console.log(textoBuscado);
+        
+        if (textoBuscado !== "") {      
+          prueba.cargando = true;      
+          // Realizar una solicitud fetch para enviar los datos del formulario a la ruta Flask
+          fetch("https://leandroavilatapia.pythonanywhere.com/productos/find/" + textoBuscado)
+            .then((response) => response.json())
+            .then((data) => {
+              // Mostrar los productos que coinciden con el término de búsqueda
+              prueba.productos = data;
+              prueba.cargando = false;
+            })
+            .catch((err) => {
+              console.error(err);
+              prueba.error = true;
+              alert("Error al buscar productos.");
+            });
+        } else {
+          prueba.fetchData(prueba.url);
+        }
+      });
+  },
   methods: {
     fetchData(url) {
       /**El método fetchData realiza una solicitud HTTP utilizando la función fetch a la URL especificada. Luego, los datos de respuesta se convierten en formato JSON y se asignan al arreglo productos. Además, se actualiza la variable cargando para indicar que la carga de productos ha finalizado. En caso de producirse un error, se muestra en la consola y se establece la variable error en true.
@@ -54,9 +91,14 @@ createApp({
     duplicar(producto){
       const url = this.url + "/" + producto; //estoy en el producto a dupplicar
       let productos = {}
-      fetch(url)
+      var options = {
+        method: "GET", // Establece el método HTTP como DELETE
+      };
+      fetch(url, options)
         .then((response) => response.json())
         .then((data) => {
+          
+        console.log(data);  
           productos = {
             nombre: data.nombre,
             precio: data.precio,
@@ -70,6 +112,7 @@ createApp({
         headers: { "Content-Type": "application/json" },
         redirect: "follow",
       };
+      console.log(options);
 
       // Realizar una solicitud fetch para guardar el producto en el servidor
       fetch(this.url, options)
@@ -121,36 +164,7 @@ createApp({
     
   },
   created() {
-    this.fetchData(this.url);    
-    const prueba = this; // Almacenar una referencia a la instancia de Vue
-      
-      document.getElementById("formularioBusqueda").addEventListener("submit", function (event) {
-        // Evitar que el formulario se envíe de forma predeterminada
-        event.preventDefault();
-        
-        // Obtener el valor del campo de búsqueda
-        var textoBuscado = document.getElementsByName("textoBuscado")[0].value;
-        console.log(textoBuscado);
-        
-        if (textoBuscado !== "") {      
-          prueba.cargando = true;      
-          // Realizar una solicitud fetch para enviar los datos del formulario a la ruta Flask
-          fetch("https://leandroavilatapia.pythonanywhere.com/productos/" + textoBuscado)
-            .then((response) => response.json())
-            .then((data) => {
-              // Mostrar los productos que coinciden con el término de búsqueda
-              prueba.productos = data;
-              prueba.cargando = false;
-            })
-            .catch((err) => {
-              console.error(err);
-              prueba.error = true;
-              alert("Error al buscar productos.");
-            });
-        } else {
-          prueba.fetchData(prueba.url);
-        }
-      });
+    this.fetchData(this.url);
 
   },
 }).mount("#app");

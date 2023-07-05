@@ -23,16 +23,28 @@
 </head>
 
 <body class="bg-dark">
-    <header id="header" >
+    <header id="header">
         <!-- Coloca la barra de navegación aquí -->
     </header>
     <main>
+
         <div id="app" class="container bg-dark">
             <h1>Productos</h1>
             <br>
             <!-- <a class="btn btn-primary" href="producto-create.html">Nuevo</a> -->
             <!-- <a class="btn btn-primary btn-animate" href="producto-create.html">Nuevo</a> -->
-            <a class="btn btn-primary animate__animated animate__heartBeat btn-animate" href="producto-create.html">Nuevo</a>
+            <div class="container">
+                <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                        <a class="btn btn-primary animate__animated animate__heartBeat btn-animate"
+                            href="producto-create.html">Nuevo</a>
+                    </div>
+                    <div class="col-6 justify-content-end d-flex align-items-center d-inline-block">
+                        <p class="text-bg-success  align-items-center d-flex m-0 p-2">Cantidad de elementos: {{
+                            cantidadProductos }}</p>
+                    </div>
+                </div>
+            </div>
             <br><br>
             <div v-if="error">
                 <p>Lo sentimos, ha ocurrido un error.</p>
@@ -67,14 +79,14 @@
                                     </td>
                                     <td>
                                         <!-- Botón para editar el producto -->
-                                        <a class="btn btn-primary"
+                                        <a class="btn btn-warning"
                                             :href="'producto-update.html?id='+ producto.id">Editar</a>
                                         <!-- Botón para eliminar el producto -->
                                         <button type="button" class="btn btn-danger"
                                             v-on:click="eliminar(producto.id)">Eliminar</button>
-                                         <!-- Botón para duplicar el producto -->
-                                         <button type="button" class="btn btn-dark"
-                                         v-on:click="duplicar(producto.id)">Duplicar</button>    
+                                        <!-- Botón para duplicar el producto -->
+                                        <button type="button" class="btn btn-primary"
+                                            v-on:click="duplicar(producto.id)">Duplicar</button>
                                     </td>
                                 </tr>
                             </tbody>
